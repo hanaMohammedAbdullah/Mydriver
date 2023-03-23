@@ -1,13 +1,19 @@
 <?php
-$host =  "localhost"; // define("host", "localhost");
-$dbname =""; // define("dbnm", "example_system_db");
-$user = "root"; // define("user", "root");
-$pass = ""; // define("pass", "password");
-$DB = null;
+
+define("Host", "localhost");
+define("dbname", "storage");
+define("user", "root");
+define("pass", "");
+$db = null;
+
+     try{
+        $db = new PDO("mysql:host=". Host .";dbname=". dbname .";charset=utf8", user, pass,
+        [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION ]);
+        return $db;
+   }
+   catch (PDOException $e) {
+      echo "Error!: " . $e->getMessage() . "<br/>";
+  }
+
+
 // $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8",$user, $pass);
-try {
-$db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass,
-[ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION ]);
-} catch (PDOException $e) {
-echo "Error!: " . $e->getMessage() . "<br/>";
-}
