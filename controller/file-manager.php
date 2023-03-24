@@ -19,8 +19,6 @@ if(isset($_POST['upload'])){
     ]);
 }
 elseif(isset($_POST['view'])){
-    $ids = $_POST['ids'];
-    setcookie('ids',$ids , time() + (100), "/");
     $qry = $db->prepare('SELECT names FROM drivers WHERE id = :id');
     $qry->execute([
         'id' => $_POST['ids']
@@ -30,13 +28,15 @@ elseif(isset($_POST['view'])){
     $names = $Singledata['names'];
     $names = explode(".",$names);
     $names = $names[0];
-    setcookie('names',$names, time() + (100), "/");
-    
+    $myvar = "<script> localStorage.getItem('productinfo')['s3_url']</script>";
+
+    setcookie('names',$names,time()+3600, "/");
+   print_r($_COOKIE['names'] );  
 }elseif(isset($_POST['edit'])){
     $qry = $db->prepare('UPDATE drivers SET names = :names WHERE id = :id');
     $qry->execute([
-        'names' => $_POST['folderName'],
-        'id' => $_POST['ids']
+        'id' => $_POST['id'],
+        'names' => $_POST['names'],
     ]);
 }
 

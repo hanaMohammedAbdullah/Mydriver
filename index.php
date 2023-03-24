@@ -140,17 +140,7 @@ include('config/config.php');
         </div>
         <div class="modal-body">
           <div class=" d-flex  mb-3 w-75 border-rounded">
-            <?php if(isset($_COOKIE['names'])){
-            
-            echo '<input type="text" name="editor" id="'.$Cookie['ids'].'"  value="'.$_COOKIE['names'].'">';
-            
-          }else{
-            echo '<input type="text" name="editor" id="editor"  value="">';
-          }
-          
-          ?>
-            
-          
+           <input type="text" name="editor" id="getcoockie"   >
           </div>
 
         </div>
@@ -168,6 +158,7 @@ include('config/config.php');
   <script type="text/javascript" src="\asset\js\DeleteFile.js"></script>
   <script type="text/javascript" src="\asset\js\EditFolder.js"></script>
   <script type="text/javascript" src="\asset\js\ViewFolder.js"></script>
+  <script type="text/javascript" src="\asset\js\Cookies.js"></script>
   
 
 </body>

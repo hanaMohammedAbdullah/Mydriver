@@ -19,4 +19,30 @@ function ViewFolder(){
       
     });
 
+
+    document.getElementById('coockie').value = GetCookie('names');
+   
+
+}
+
+function GetCookie (name) {
+    var arg = name + "=";
+    var alen = arg.length;
+    var clen = document.cookie.length;
+    var i = 0;
+
+    while (i < clen) {
+        var j = i + alen;
+        if (document.cookie.substring(i, j) == arg){
+            return getCookieVal (j);
+            document.getElementById('coockie').value = GetCookie('names');
+
+        }
+        i = document.cookie.indexOf(" ", i) + 1;
+        if (i == 0)
+            break;
+    }
+    document.getElementById('coockie').value = GetCookie('names');
+
+    return null;
 }
