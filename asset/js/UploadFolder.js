@@ -1,5 +1,4 @@
 function UploadFolder (){
-   
         let folder = document.getElementById("formFile");
         let folderName = document.getElementById("formFile").files[0].name;
         let folderSize = document.getElementById("formFile").files[0].size;
