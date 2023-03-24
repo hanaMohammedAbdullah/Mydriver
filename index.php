@@ -6,10 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bootstrap demo</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-<?php
-include('config/config.php');
+  <?php
+  include('config/config.php');
 
-?>
+  ?>
 </head>
 
 <body>
@@ -48,8 +48,8 @@ include('config/config.php');
     $qry = $db->prepare('SELECT id , names , sizes , modifytime  FROM drivers');
     $qry->execute();
     $data = $qry->fetchAll(PDO::FETCH_OBJ);
-    
- 
+
+
     $table = ' <table class="table  w-75">
       <thead>
         <tr>
@@ -65,20 +65,20 @@ include('config/config.php');
           <th scope="col">Size</th>
         </tr>
       </thead><tbody>';
-   
-      foreach($data as $record){
-        $table .= '<tr> <th scope="row "> 
-        <input class="form-check-input" type="checkbox" name="checked" id="'.$record->id.'">
-        <label class="form-check-label text-primary text-decoration-underline" for="flexCheckDefault">'.$record->names
-        .'
-        </label></th><td>'.$record->modifytime.'</td><td>'.humanFileSize($record->sizes,'MB').'</td></tr>';
-      }
+
+    foreach ($data as $record) {
+      $table .= '<tr> <th scope="row "> 
+        <input class="form-check-input" type="checkbox" name="checked" id="' . $record->id . '">
+        <label class="form-check-label text-primary text-decoration-underline" for="flexCheckDefault">' . $record->names
+        . '
+        </label></th><td>' . $record->modifytime . '</td><td>' . humanFileSize($record->sizes, 'MB') . '</td></tr>';
+    }
     $table .= '
     </tbody>
     </table>';
 
     echo $table;
-   
+
 
     ?>
 
@@ -122,7 +122,7 @@ include('config/config.php');
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-          <button type="button" class="btn btn-danger" onclick="DeleteFile()"  >Delete </button>
+          <button type="button" class="btn btn-danger" onclick="DeleteFile()">Delete </button>
         </div>
       </div>
     </div>
@@ -140,7 +140,11 @@ include('config/config.php');
         </div>
         <div class="modal-body">
           <div class=" d-flex  mb-3 w-75 border-rounded">
-           <input type="text" name="editor" id="getcoockie"   >
+            <?php if (isset($_COOKIE['names'])) {
+
+              echo '<input type="text" name="editor"   value="' . $_COOKIE['names'] . '">';
+            }
+            ?>
           </div>
 
         </div>
@@ -159,7 +163,7 @@ include('config/config.php');
   <script type="text/javascript" src="\asset\js\EditFolder.js"></script>
   <script type="text/javascript" src="\asset\js\ViewFolder.js"></script>
   <script type="text/javascript" src="\asset\js\Cookies.js"></script>
-  
+
 
 </body>
 
@@ -168,13 +172,13 @@ include('config/config.php');
 <?php
 function humanFileSize($size, $unit = "")
 {
-    if ((!$unit && $size >= 1 << 30) || $unit == "GB")
-        return number_format($size / (1 << 30), 2) . "GB";
-    if ((!$unit && $size >= 1 << 20) || $unit == "MB")
-        return number_format($size / (1 << 20), 2) . "MB";
-    if ((!$unit && $size >= 1 << 10) || $unit == "KB")
-        return number_format($size / (1 << 10), 2) . "KB";
-    return number_format($size) . " bytes";
+  if ((!$unit && $size >= 1 << 30) || $unit == "GB")
+    return number_format($size / (1 << 30), 2) . "GB";
+  if ((!$unit && $size >= 1 << 20) || $unit == "MB")
+    return number_format($size / (1 << 20), 2) . "MB";
+  if ((!$unit && $size >= 1 << 10) || $unit == "KB")
+    return number_format($size / (1 << 10), 2) . "KB";
+  return number_format($size) . " bytes";
 }
 
 

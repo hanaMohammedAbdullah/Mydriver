@@ -28,9 +28,8 @@ elseif(isset($_POST['view'])){
     $names = $Singledata['names'];
     $names = explode(".",$names);
     $names = $names[0];
-    $myvar = "<script> localStorage.getItem('productinfo')['s3_url']</script>";
-
-    setcookie('names',$names,time()+3600, "/");
+print_r($names);
+    setcookie('names',$names,time()+3600);
    print_r($_COOKIE['names'] );  
 }elseif(isset($_POST['edit'])){
     $qry = $db->prepare('UPDATE drivers SET names = :names WHERE id = :id');
