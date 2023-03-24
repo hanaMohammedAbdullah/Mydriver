@@ -1,8 +1,12 @@
 function EditFolder(){
-    let checked = document.querySelectorAll('input[type="checkbox"]:checked');
+    let checked = document.querySelectorAll('input[name="editor"]');
     var formData = new FormData()
-    formData.append('ids', id);
-    formData.append('Edit', "Edit");
+   console.log("value  "+checked[0].value);
+   console.log("id  "+checked[0].id);
+    formData.append('names', checked[0].value);
+    formData.append('ids', checked[0].id);
+
+    formData.append('edit', "edit");
     $.ajax({
         url: "../../controller/file-manager.php",
         type: "POST",

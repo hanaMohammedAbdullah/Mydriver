@@ -3,6 +3,7 @@ function ViewFolder(){
     var formData = new FormData()
     formData.append('ids', checked[0].id);
     formData.append('view', "view");
+    // console.log(checked[0].id);
     $.ajax({
         url: "../../controller/file-manager.php",
         type: "POST",
@@ -11,12 +12,11 @@ function ViewFolder(){
         contentType: false,
         success: function (data,status) {
             console.log(status);
-            console.log(data);
         }
        
     }).then(data=> {
         console.log(data);
-        document.cookie = name + "=" +data  ;
+      
     });
 
 }

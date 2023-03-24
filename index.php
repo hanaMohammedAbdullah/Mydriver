@@ -78,7 +78,7 @@ include('config/config.php');
     </table>';
 
     echo $table;
-    print_r($_COOKIE['namesdata'])
+   
 
     ?>
 
@@ -140,7 +140,16 @@ include('config/config.php');
         </div>
         <div class="modal-body">
           <div class=" d-flex  mb-3 w-75 border-rounded">
-            <input type="text" value="<?php $_COOKIE["name"]  ?>">
+            <?php if(isset($_COOKIE['names'])){
+            
+            echo '<input type="text" name="editor" id="'.$Cookie['ids'].'"  value="'.$_COOKIE['names'].'">';
+            
+          }else{
+            echo '<input type="text" name="editor" id="editor"  value="">';
+          }
+          
+          ?>
+            
           
           </div>
 
