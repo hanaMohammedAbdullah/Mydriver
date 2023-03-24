@@ -6,7 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bootstrap demo</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<?php
+include('config/config.php');
 
+?>
 </head>
 
 <body>
@@ -16,7 +19,7 @@
       <a class="navbar-brand fs-4 text-light fw-semibold">My Driver</a>
       <form class="d-flex justify-content-around " role="search">
         <button class="btn btn-danger mx-2" type="button" data-bs-toggle="modal" data-bs-target="#DeleteModal">Delete</button>
-        <button class="btn btn-light  mx-2" type="button" data-bs-toggle="modal" data-bs-target="#RenameModal">Rename</button>
+        <button class="btn btn-light  mx-2" type="button" data-bs-toggle="modal" data-bs-target="#RenameModal" onclick="ViewFolder()">Rename</button>
         <button class="btn btn-light  mx-2" type="button" data-bs-toggle="modal" data-bs-target="#NewFolderModal">New Folder</button>
       </form>
     </div>
@@ -35,15 +38,23 @@
   <div class="d-flex flex-column align-items-center justify-content-center  my-2">
 
     <div class=" d-flex  mb-3 w-75 border-rounded">
-     
-        <input class="form-control mx-0" type="file" id="formFile"><button class="mx-0 btn btn-primary mx-2" type="submit" onclick="UploadFolder()">upload</button>
+
+      <input class="form-control mx-0" type="file" id="formFile"><button class="mx-0 btn btn-primary mx-2" type="submit" onclick="UploadFolder()">upload</button>
     </div>
 
-    <table class="table  w-75">
+
+
+    <?php
+    $qry = $db->prepare('SELECT id , names , sizes , modifytime  FROM drivers');
+    $qry->execute();
+    $data = $qry->fetchAll(PDO::FETCH_OBJ);
+    
+ 
+    $table = ' <table class="table  w-75">
       <thead>
         <tr>
           <th scope="col">
-            <div class="form-check">
+            <div class="form-check ">
               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
               <label class="form-check-label" for="flexCheckDefault">
                 Name
@@ -53,26 +64,27 @@
           <th scope="col">Last modify</th>
           <th scope="col">Size</th>
         </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
+      </thead><tbody>';
+   
+      foreach($data as $record){
+        $table .= '<tr> <th scope="row "> 
+        <input class="form-check-input" type="checkbox" name="checked" id="'.$record->id.'">
+        <label class="form-check-label text-primary text-decoration-underline" for="flexCheckDefault">'.$record->names
+        .'
+        </label></th><td>'.$record->modifytime.'</td><td>'.humanFileSize($record->sizes,'MB').'</td></tr>';
+      }
+    $table .= '
+    </tbody>
+    </table>';
 
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry the Bird</td>
-          <td>Larry the Bird</td>
-        </tr>
-      </tbody>
-    </table>
+    echo $table;
+    print_r($_COOKIE['namesdata'])
+
+    ?>
+
+
+
+
 
 
   </div>
@@ -110,11 +122,12 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-          <button type="button" class="btn btn-danger">Delete </button>
+          <button type="button" class="btn btn-danger" onclick="DeleteFile()"  >Delete </button>
         </div>
       </div>
     </div>
   </div>
+
 
 
   <!-- renmae modal -->
@@ -127,23 +140,44 @@
         </div>
         <div class="modal-body">
           <div class=" d-flex  mb-3 w-75 border-rounded">
-            <input class="form-control mx-0" type="file" id="formFile">
+            <input type="text" value="<?php $_COOKIE["name"]  ?>">
+          
           </div>
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Rename </button>
+          <button type="button" class="btn btn-primary" onclick="EditFolder()">Rename </button>
         </div>
       </div>
     </div>
   </div>
 
-  
+
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-   <script type = "text/javascript" src="\asset\js\UploadFolder.js"></script>
+  <script type="text/javascript" src="\asset\js\UploadFolder.js"></script>
+  <script type="text/javascript" src="\asset\js\DeleteFile.js"></script>
+  <script type="text/javascript" src="\asset\js\EditFolder.js"></script>
+  <script type="text/javascript" src="\asset\js\ViewFolder.js"></script>
+  
 
- 
 </body>
 
 </html>
+
+<?php
+function humanFileSize($size, $unit = "")
+{
+    if ((!$unit && $size >= 1 << 30) || $unit == "GB")
+        return number_format($size / (1 << 30), 2) . "GB";
+    if ((!$unit && $size >= 1 << 20) || $unit == "MB")
+        return number_format($size / (1 << 20), 2) . "MB";
+    if ((!$unit && $size >= 1 << 10) || $unit == "KB")
+        return number_format($size / (1 << 10), 2) . "KB";
+    return number_format($size) . " bytes";
+}
+
+
+
+
+?>

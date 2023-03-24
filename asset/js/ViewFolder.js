@@ -1,17 +1,22 @@
-function veiwFolders(){
+function ViewFolder(){
+    let checked = document.querySelectorAll('input[type="checkbox"]:checked');
+    var formData = new FormData()
+    formData.append('ids', checked[0].id);
+    formData.append('view', "view");
     $.ajax({
-        url: "http://localhost:8080/Assignment/demo/Mydriver/controller/file-manager.php",
+        url: "../../controller/file-manager.php",
         type: "POST",
-        data: {view: "view"},
-        success: function (data) {
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data,status) {
+            console.log(status);
             console.log(data);
-            if (data == "success") {
-                alert("Folder Created");
-            } else {
-                alert("Folder Not Created");
-            }
-        
         }
-    })
+       
+    }).then(data=> {
+        console.log(data);
+        document.cookie = name + "=" +data  ;
+    });
 
 }

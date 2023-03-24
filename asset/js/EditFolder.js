@@ -1,16 +1,19 @@
 function EditFolder(){
+    let checked = document.querySelectorAll('input[type="checkbox"]:checked');
+    var formData = new FormData()
+    formData.append('ids', id);
+    formData.append('Edit', "Edit");
     $.ajax({
-        url: "http://localhost:8080/Assignment/demo/Mydriver/controller/file-manager.php",
+        url: "../../controller/file-manager.php",
         type: "POST",
-        data: {edit: "edit"},
-        success: function (data) {
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data,status) {
+            console.log(status);
             console.log(data);
-            if (data == "success") {
-                alert("Folder Created");
-            } else {
-                alert("Folder Not Created");
-            }
         }
-    })
+       
+    });
     
 }
