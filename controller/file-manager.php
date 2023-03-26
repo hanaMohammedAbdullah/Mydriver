@@ -1,6 +1,5 @@
 <?php
 include('../config/config.php'); 
-session_start();
 
 if(isset($_POST['upload'])){
     
@@ -41,5 +40,7 @@ elseif(isset($_POST['view'])){
         'names' => $_POST['names'],
     ]);
     }
+
+    
 
 ?>
