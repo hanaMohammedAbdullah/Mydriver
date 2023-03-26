@@ -10,18 +10,18 @@
 
 
   include('config/config.php');
-  session_start();
+
   ?>
 </head>
 
-<body>
+<body onload="checkCookies('ids')">
 
   <nav class="navbar bg-secondary">
     <div class="container-fluid">
       <a class="navbar-brand fs-4 text-light fw-semibold">My Driver</a>
       <form class="d-flex justify-content-around " role="search">
         <button class="btn btn-danger mx-2" type="button" data-bs-toggle="modal" data-bs-target="#DeleteModal">Delete</button>
-        <button class="btn btn-light  mx-2" type="button" data-bs-toggle="modal" data-bs-target="#RenameModal" onclick="ViewFolder()">Rename</button>
+        <button class="btn btn-light  mx-2" type="button" id="toggleredit" data-bs-toggle="modal" data-bs-target="#RenameModal" onclick="ViewFolder()">Rename</button>
         <button class="btn btn-light  mx-2" type="button" data-bs-toggle="modal" data-bs-target="#NewFolderModal">New Folder</button>
       </form>
     </div>
@@ -144,7 +144,7 @@
           <div class=" d-flex  mb-3 w-75 border-rounded">
             <?php if (isset($_COOKIE['names'])) {
 
-              echo '<input type="text" name="editor"   value="' . $_COOKIE['names'] . '">';
+              echo '<input type="text" name="editor"  id="' . $_COOKIE['ids'] . '"  value="' . $_COOKIE['names'] . '">';
             }
             ?>
           </div>
@@ -163,8 +163,8 @@
   <script type="text/javascript" src="\asset\js\UploadFolder.js"></script>
   <script type="text/javascript" src="\asset\js\DeleteFile.js"></script>
   <script type="text/javascript" src="\asset\js\EditFolder.js"></script>
+  <script type="text/javascript" src="\asset\js\checkCookies.js"></script>
   <script type="text/javascript" src="\asset\js\ViewFolder.js"></script>
-  <script type="text/javascript" src="\asset\js\Cookies.js"></script>
 
 
 </body>

@@ -25,7 +25,7 @@ function UploadFolder (){
            
         });
       
-            location.reload();
-      
+           
+      location.reload();
     
 }

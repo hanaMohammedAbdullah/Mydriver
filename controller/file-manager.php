@@ -11,14 +11,14 @@ if(isset($_POST['upload'])){
         'sizes' => $_POST['size'],
         'modifytime' => $_POST['dates']
     ]);
-    header("location:../index.php");
-    header("Refresh:0");
+    header("location:../index.php؟q=100");
+   
 }elseif(isset($_POST['delete'])){
     $qry = $db->prepare('DELETE FROM drivers WHERE id = :id');
     $qry->execute([
         'id' => $_POST['ids']
     ]);
-    header("Refresh:0; url=index.php");
+    
 }
 elseif(isset($_POST['view'])){
     $qry = $db->prepare('SELECT names FROM drivers WHERE id = :id');
@@ -30,7 +30,8 @@ elseif(isset($_POST['view'])){
     $names = $Singledata['names'];
     $names = explode(".",$names);
     $names = $names[0];
-    setcookie('names',$names,time()+600,'/');
+    setcookie('names',$names,time()+6,'/');
+    setcookie('ids',$_POST['ids'],time()+6,'/');
    
 
 }elseif(isset($_POST['edit'])){
