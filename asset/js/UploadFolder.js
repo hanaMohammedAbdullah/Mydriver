@@ -24,7 +24,8 @@ function UploadFolder (){
             }
            
         });
-    
-    
+      
+            location.reload();
+      
     
 }

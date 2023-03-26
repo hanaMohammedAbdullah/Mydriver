@@ -1,7 +1,6 @@
 <?php
 include('../config/config.php'); 
-extract($_POST);
-print_r($_POST);
+session_start();
 
 if(isset($_POST['upload'])){
     
@@ -12,11 +11,14 @@ if(isset($_POST['upload'])){
         'sizes' => $_POST['size'],
         'modifytime' => $_POST['dates']
     ]);
+    header("location:../index.php");
+    header("Refresh:0");
 }elseif(isset($_POST['delete'])){
     $qry = $db->prepare('DELETE FROM drivers WHERE id = :id');
     $qry->execute([
         'id' => $_POST['ids']
     ]);
+    header("Refresh:0; url=index.php");
 }
 elseif(isset($_POST['view'])){
     $qry = $db->prepare('SELECT names FROM drivers WHERE id = :id');
@@ -28,15 +30,15 @@ elseif(isset($_POST['view'])){
     $names = $Singledata['names'];
     $names = explode(".",$names);
     $names = $names[0];
-print_r($names);
-    setcookie('names',$names,time()+3600);
-   print_r($_COOKIE['names'] );  
+    setcookie('names',$names,time()+600,'/');
+   
+
 }elseif(isset($_POST['edit'])){
     $qry = $db->prepare('UPDATE drivers SET names = :names WHERE id = :id');
     $qry->execute([
         'id' => $_POST['id'],
         'names' => $_POST['names'],
     ]);
-}
+    }
 
 ?>

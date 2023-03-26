@@ -7,8 +7,10 @@
   <title>Bootstrap demo</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <?php
-  include('config/config.php');
 
+
+  include('config/config.php');
+  session_start();
   ?>
 </head>
 
@@ -100,7 +102,7 @@
           <input class="form-control" type="text" placeholder="New folder name" aria-label="default input example">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Create </button>
+          <button type="button" data-bs-dismiss="modal" class="btn btn-primary">Create </button>
         </div>
       </div>
     </div>
@@ -122,7 +124,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-          <button type="button" class="btn btn-danger" onclick="DeleteFile()">Delete </button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="DeleteFile()">Delete </button>
         </div>
       </div>
     </div>
@@ -149,7 +151,7 @@
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" onclick="EditFolder()">Rename </button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="EditFolder()">Rename </button>
         </div>
       </div>
     </div>
