@@ -22,7 +22,7 @@
       <form class="d-flex justify-content-around " role="search">
         <button class="btn btn-danger mx-2" type="button" data-bs-toggle="modal" data-bs-target="#DeleteModal">Delete</button>
         <button class="btn btn-light  mx-2" type="button" id="toggleredit" data-bs-toggle="modal" data-bs-target="#RenameModal" onclick="ViewFolder()">Rename</button>
-        <button class="btn btn-light  mx-2" type="button" data-bs-toggle="modal" data-bs-target="#NewFolderModal">New Folder</button>
+        <button class="btn btn-light  mx-2" type="button" data-bs-toggle="modal" data-bs-target="#NewFolderModal"   >New Folder</button>
       </form>
     </div>
   </nav>
@@ -40,14 +40,15 @@
   <div class="d-flex flex-column align-items-center justify-content-center  my-2">
 
     <div class=" d-flex  mb-3 w-75 border-rounded">
-
+   
       <input class="form-control mx-0" type="file" id="formFile"><button class="mx-0 btn btn-primary mx-2" type="submit" onclick="UploadFolder()">upload</button>
+      
     </div>
 
 
 
     <?php
-    $qry = $db->prepare('SELECT id , names , sizes , modifytime  FROM drivers');
+    $qry = $db->prepare('SELECT id , names , sizes , modifytime  FROM drivers ');
     $qry->execute();
     $data = $qry->fetchAll(PDO::FETCH_OBJ);
 
@@ -99,10 +100,10 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <input class="form-control" type="text" placeholder="New folder name" aria-label="default input example">
+          <input class="form-control" id="FolderPath" type="text" placeholder="New folder name" aria-label="default input example">
         </div>
         <div class="modal-footer">
-          <button type="button" data-bs-dismiss="modal" class="btn btn-primary">Create </button>
+          <button type="button" data-bs-dismiss="modal" class="btn btn-primary" onclick="Createfolder()" >Create </button>
         </div>
       </div>
     </div>
@@ -165,7 +166,41 @@
   <script type="text/javascript" src="\asset\js\EditFolder.js"></script>
   <script type="text/javascript" src="\asset\js\checkCookies.js"></script>
   <script type="text/javascript" src="\asset\js\ViewFolder.js"></script>
+  <script type="text/javascript" src="\asset\js\CreateFolder.js"></script>
+<script>
+  function UploadFolder(){
+        let folder = document.getElementById("formFile");
+        let folderName = document.getElementById("formFile").files[0].name;
+        let folderSize = document.getElementById("formFile").files[0].size;
+        console.log(folderName);
+        console.log(folderSize);
+        let time = new Date("Wed, 27 July 2016 13:30:00");
+        console.log(time);
+        var formData = new FormData()
+        formData.append('folder', folder);
+        formData.append('size', folderSize);
+        formData.append('dates', time);
+        formData.append('upload', "upload");
+        formData.append('folderName', folderName);
+        $.ajax({
+            url: "../../controller/file-manager.php",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data,status) {
+                console.log(status);
+                console.log(data);
+            }
+           
+        });
+      
+           
+      location.reload();
+    
+}
 
+</script>
 
 </body>
 

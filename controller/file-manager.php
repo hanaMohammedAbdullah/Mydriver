@@ -10,7 +10,13 @@ if(isset($_POST['upload'])){
         'sizes' => $_POST['size'],
         'modifytime' => $_POST['dates']
     ]);
-    header("location:../index.php؟q=100");
+    $qry = $db->prepare('INSERT INTO folders(id ,id_folder,  dirFolder ,nameFolder   ) VALUE (:id ,:id_folder, :dirFolder ,:nameFolder)');
+    $qry->execute([
+        'id' => $_POST['id'],
+        'id_folder' => $_POST['id_folder'],
+        'dirFolder' => $_POST['dirFolder'],
+        'nameFolder' => $_POST['nameFolder']
+    ]);
    
 }elseif(isset($_POST['delete'])){
     $qry = $db->prepare('DELETE FROM drivers WHERE id = :id');
@@ -39,8 +45,16 @@ elseif(isset($_POST['view'])){
         'id' => $_POST['id'],
         'names' => $_POST['names'],
     ]);
-    }
+    }elseif(isset($_POST['createfolder'])){
+       $qry = $db->prepare('INSERT INTO folders (nameFolder , dirFolder ,id ) VALUE (:nameFolder , :dirFolder , :id )');
+         $qry->execute([
+            'nameFolder' => $_POST['folderName'],
+            'dirFolder' => $_POST['Folderpath'],
+            'id' => $_POST['id'],
+            
+         ]);
 
+        }
     
 
 ?>
