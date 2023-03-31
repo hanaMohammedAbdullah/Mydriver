@@ -5,7 +5,6 @@ function Createfolder(){
         let folderPath = (new URL(document.location)).searchParams;
         folderPath='http://localhost:3000/?'+folderPath;
                 var formData = new FormData()
-        formData.append('createfolder', "createfolder");
         formData.append('folderName', folderName);
         formData.append('Folderpath',folderPath );
         console.log(folderPath);

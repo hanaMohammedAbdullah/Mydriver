@@ -34,12 +34,4 @@ if (isset($_POST['upload'])) {
         'id' => $_POST['id'],
         'names' => $_POST['names'],
     ]);
-} elseif (isset($_POST['createfolder'])) {
-    $qry = $db->prepare('INSERT INTO folders (  dirFolder ,nameFolder ) VALUE (:dirFolder,:nameFolder   )');
-    $qry->execute([
-        'dirFolder' => $_POST['Folderpath'],
-        'nameFolder' => $_POST['folderName'],
-    ]);
-
-    // mkdir($_POST['folderName'], 0777);
-}
+} 
