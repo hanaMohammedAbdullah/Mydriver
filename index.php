@@ -29,7 +29,9 @@
 
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="nav-link active fs-5 text-decoration-underline text-primary" aria-current="page" href="#">Home</a>
+      <a class="nav-link active fs-5 text-decoration-underline text-primary" aria-current="page" href="http://localhost:3000/">Home<?php if(isset($_GET['p'])){
+      echo '/'.$_GET['p'];
+      }   ?> </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -47,13 +49,7 @@
 
 
 
-    <?php
-    $qry = $db->prepare('SELECT id , names , sizes , modifytime  FROM drivers ');
-    $qry->execute();
-    $data = $qry->fetchAll(PDO::FETCH_OBJ);
-
-
-    $table = ' <table class="table  w-75">
+  <table class="table  w-75">
       <thead>
         <tr>
           <th scope="col">
@@ -67,14 +63,25 @@
           <th scope="col">Last modify</th>
           <th scope="col">Size</th>
         </tr>
-      </thead><tbody>';
+      </thead><tbody>
 
+
+      <?php
+
+  $qry = $db->prepare('SELECT id , names , sizes , modifytime ,FolderPathId FROM drivers WHERE FolderPathId = :FolderPathId');
+  if(isset($_GET['p']) && !empty($_GET['p'])){
+    $qry->execute( [':FolderPathId' => 'http://'.$_SERVER['HTTP_HOST'].'/?p='.$_GET['p']]);
+  }else{
+    $qry->execute( [':FolderPathId' => 'http://'.$_SERVER['HTTP_HOST'].'/?']);
+  } 
+  $data = $qry->fetchAll(PDO::FETCH_OBJ);
+  $table = '';
     foreach ($data as $record) {
       $table .= '<tr> <th scope="row "> 
         <input class="form-check-input" type="checkbox" name="checked" id="' . $record->id . '">
-        <label class="form-check-label text-primary text-decoration-underline" for="flexCheckDefault">' . $record->names
+        <a class="form-check-label text-primary text-decoration-underline" href="?p='. $record->names .'" for="flexCheckDefault">' . $record->names
         . '
-        </label></th><td>' . $record->modifytime . '</td><td>' . humanFileSize($record->sizes, 'MB') . '</td></tr>';
+        </a></th><td>' . $record->modifytime . '</td><td>' . humanFileSize($record->sizes, 'MB') . '</td></tr>';
     }
     $table .= '
     </tbody>
@@ -167,40 +174,7 @@
   <script type="text/javascript" src="\asset\js\checkCookies.js"></script>
   <script type="text/javascript" src="\asset\js\ViewFolder.js"></script>
   <script type="text/javascript" src="\asset\js\CreateFolder.js"></script>
-<script>
-  function UploadFolder(){
-        let folder = document.getElementById("formFile");
-        let folderName = document.getElementById("formFile").files[0].name;
-        let folderSize = document.getElementById("formFile").files[0].size;
-        console.log(folderName);
-        console.log(folderSize);
-        let time = new Date("Wed, 27 July 2016 13:30:00");
-        console.log(time);
-        var formData = new FormData()
-        formData.append('folder', folder);
-        formData.append('size', folderSize);
-        formData.append('dates', time);
-        formData.append('upload', "upload");
-        formData.append('folderName', folderName);
-        $.ajax({
-            url: "../../controller/file-manager.php",
-            type: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (data,status) {
-                console.log(status);
-                console.log(data);
-            }
-           
-        });
-      
-           
-      location.reload();
-    
-}
 
-</script>
 
 </body>
 
