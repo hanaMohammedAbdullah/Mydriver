@@ -29,7 +29,7 @@
 
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="nav-link active fs-5 text-decoration-underline text-primary" aria-current="page" href="http://localhost:3000/">Home<?php if(isset($_GET['p'])){
+      <a class="nav-link active fs-5 text-decoration-underline text-primary" aria-current="page" href="?">Home<?php if(isset($_GET['p'])){
       echo '/'.$_GET['p'];
       }   ?> </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -150,11 +150,11 @@
         </div>
         <div class="modal-body">
           <div class=" d-flex  mb-3 w-75 border-rounded">
-            <?php if (isset($_COOKIE['names'])) {
-
-              echo '<input type="text" name="editor"  id="' . $_COOKIE['ids'] . '"  value="' . $_COOKIE['names'] . '">';
-            }
-            ?>
+            <?php if (isset($_COOKIE['names'])  && isset($_COOKIE['ext'])) {
+               echo '<input class="form-control mx-0" type="hidden" id="extenstion" value="' . $_COOKIE['ext'] . '" aria-label="default input example">';
+              echo '<input type="text" name="editor"    id="' . $_COOKIE['ids'] . '"  value="' . $_COOKIE['names'] . '">';
+            }else{
+              echo '<input type="text" name="editor"    id="' . $_COOKIE['ids'] . '"  value="' . $_COOKIE['names'] . '">';        }    ?>
           </div>
 
         </div>

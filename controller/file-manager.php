@@ -25,8 +25,10 @@ if (isset($_POST['upload'])) {
     $Singledata = $qry->fetch(PDO::FETCH_ASSOC);
     $names = $Singledata['names'];
     $names = explode(".", $names);
+    $ext= $names[1];
     $names = $names[0];
     setcookie('names', $names, time() + 6, '/');
+    setcookie('ext', $ext, time() + 6, '/');
     setcookie('ids', $_POST['ids'], time() + 6, '/');
 } elseif (isset($_POST['edit'])) {
     $qry = $db->prepare('UPDATE drivers SET names = :names WHERE id = :id');
